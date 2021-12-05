@@ -3,19 +3,19 @@ from django.http import HttpResponse
 
 # Create your views here.
 def home(request):
-    return HttpResponse('Homepage')
+    return render(request, 'Database_Manager/home.html')
 
 def inventory(request):
-    return HttpResponse('Inventory Page')
+    return render(request, 'Database_Manager/inventory.html')
 
 def recipes(request):
-    return HttpResponse('Base Recipes Page')
+    return render(request, 'Database_Manager/recipes.html')
 
 def employees(request):
-    return HttpResponse('Employees Page')
+    return render(request, 'Database_Manager/employees.html')
 
 def schedule(request):
-    return HttpResponse('Schedule Page')
+    return render(request, 'Database_Manager/schedule.html')
 
 def sales(request):
-    return HttpResponse('Past Sales Page')
+    return render(request, 'Database_Manager/sales.html')
