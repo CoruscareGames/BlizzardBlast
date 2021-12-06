@@ -10,12 +10,12 @@
 <body>
     <header>
         <nav class="container nav nav-pills nav-fill bg-white">
-            <a class="nav-link active" aria-current="page" href="/">New Sale</a>
-            <a class="nav-link" aria-current="page" href="/sales_list/">Sales List</a>
-            <a class="nav-link" aria-current="page" href="/inventory/">Inventory</a>
-            <a class="nav-link" aria-current="page" href="/recipes/">Recipes</a>
-            <a class="nav-link" aria-current="page" href="/employees/">Employees</a>
-            <a class="nav-link" aria-current="page" href="/schedule/">Schedule</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'manage_home' %}">New Sale</a>
+            <a class="nav-link" aria-current="page" href="{% url 'manage_sales_list' %}">Sales List</a>
+            <a class="nav-link" aria-current="page" href="{% url 'manage_inventory' %}">Inventory</a>
+            <a class="nav-link" aria-current="page" href="{% url 'manage_recipes' %}">Recipes</a>
+            <a class="nav-link" aria-current="page" href="{% url 'manage_employees' %}">Employees</a>
+            <a class="nav-link" aria-current="page" href="{% url 'manage_schedule' %}">Schedule</a>
         </nav>
         
     </header>
