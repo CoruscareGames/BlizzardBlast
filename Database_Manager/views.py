@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 def home(request):
-    return render(request, 'Database_Manager/home.html')
+    return render(request, 'Database_Manager/new_sale.html')
 
 def inventory(request):
     return render(request, 'Database_Manager/inventory.html')
@@ -17,5 +17,5 @@ def employees(request):
 def schedule(request):
     return render(request, 'Database_Manager/schedule.html')
 
-def sales(request):
-    return render(request, 'Database_Manager/sales.html')
+def sales_list(request):
+    return render(request, 'Database_Manager/sales_list.html')
