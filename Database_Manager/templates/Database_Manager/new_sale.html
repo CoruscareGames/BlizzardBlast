@@ -1,9 +1,19 @@
 {% extends "Database_Manager/base.html" %}
 
 {% block title %}
-    <title>New Sale - Blizzard Blast Database</title>
+    New Sale
 {% endblock title %}
 
 {% block content %}
-    <h1>New Order</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <button class="btn btn-success", type="submit", name="save", value="save">Save Order</button>
+    </form>    
+    
+    {% if confirmed %}
+        <h1 class="d-flex justify-content-center">Order Placed</h1>
+    {& else &}
+        <p></p>
+    {% endif %}
 {% endblock content %}

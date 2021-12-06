@@ -1,7 +1,7 @@
 {% extends "Database_Manager/base.html" %}
 
 {% block title %}
-    <title>Sales List - Blizzard Blast Database</title>
+    Sales List
 {% endblock title %}
 
 {% block content %}
@@ -9,30 +9,23 @@
     <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Txn</th>
+            <th scope="col">Date</th>
+            <th scope="col">Name</th>
+            <th scope="col">Ordered</th>
+            <th scope="col">Total</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
+          {% for sales in sales %}
+            <tr>
+              <th scope="row">{{ sales.txn }}</th>
+              <td>{{ sales.date_ordered }}</td>
+              <td>{{ sales.customer_name }}</td>
+              <td>{{ sales.milkshake_ordered }}</td>
+              <td>{{ sales.total }}</td>
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
 {% endblock content %}
