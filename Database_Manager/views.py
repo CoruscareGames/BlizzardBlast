@@ -20,16 +20,28 @@ def new_sale(request):
     return render(request, 'Database_Manager/new_sale.html')
 
 def inventory(request):
-    return render(request, 'Database_Manager/inventory.html')
+    context = {
+        'ingredient': Ingredient.objects.all()
+    }
+    return render(request, 'Database_Manager/inventory.html', context)
 
 def recipes(request):
-    return render(request, 'Database_Manager/recipes.html')
+    context = {
+        'recipe': RecipePrice.objects.all()
+    }
+    return render(request, 'Database_Manager/recipes.html', context)
 
 def employees(request):
-    return render(request, 'Database_Manager/employees.html')
+    context = {
+        'employee': Employee.objects.all()
+    }
+    return render(request, 'Database_Manager/employees.html', context)
 
 def schedule(request):
-    return render(request, 'Database_Manager/schedule.html')
+    context = {
+        'schedule': Schedule.objects.all()
+    }
+    return render(request, 'Database_Manager/schedule.html', context)
 
 def sales_list(request):
     context = {

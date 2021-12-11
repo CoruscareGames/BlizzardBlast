@@ -5,5 +5,23 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>Recipes</h1>
+    <h1>Blizzard Blast's Recipes</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Recipe Name</th>
+            <th scope="col">Size</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for recipe in recipe %}
+            <tr>
+              <th scope="row">{{ recipe.recipe_name.recipe_name }}</th>
+              <td>{{ recipe.recipe_size.recipe_size }}</td>
+              <td>{{ recipe.price }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 {% endblock content %}

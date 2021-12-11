@@ -5,5 +5,23 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>Schedule</h1>
+    <h1>Blizzard Blast's Schedule</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Week Date</th>
+            <th scope="col">Employee</th>
+            <th scope="col">Employee Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for schedule in schedule %}
+            <tr>
+              <th scope="row">{{ schedule.week_date.week_date }}</th>
+              <td>{{ schedule.employee.name }}</td>
+              <td>{{ schedule.employee_role }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 {% endblock content %}
