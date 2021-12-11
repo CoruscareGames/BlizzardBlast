@@ -5,19 +5,19 @@ from .forms import *
 
 # Create your views here.
 def new_sale(request):
-    form = OrderForm
-    context = {
-        'form': form, 
-    }
+    # form = OrderForm
+    # context = {
+    #     'form': form, 
+    # }
     
-    if request.method == "POST":
-        form = OrderForm(request.POST)
+    # if request.method == "POST":
+    #     form = OrderForm(request.POST)
         
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/')
+    #     if form.is_valid():
+    #         form.save()
+    #         return HttpResponseRedirect('/')
             
-    return render(request, 'Database_Manager/new_sale.html', context)
+    return render(request, 'Database_Manager/new_sale.html')
 
 def inventory(request):
     return render(request, 'Database_Manager/inventory.html')
@@ -33,7 +33,7 @@ def schedule(request):
 
 def sales_list(request):
     context = {
-        'sales': OrderSample.objects.all()
+        'sale': Sale.objects.all()
     }
     return render(request, 'Database_Manager/sales_list.html', context)
     

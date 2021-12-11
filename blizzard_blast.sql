@@ -1,0 +1,385 @@
+CREATE TABLE recipe(
+	recipe_name VARCHAR(50) NOT NULL PRIMARY KEY
+);
+
+CREATE TABLE recipe_size(
+	recipe_size INT NOT NULL PRIMARY KEY
+);
+
+CREATE TABLE week(
+	week_date DATE NOT NULL PRIMARY KEY
+);
+
+CREATE TABLE employee(
+	employee_id INT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE ingredient(
+	ingredient_name VARCHAR(50) NOT NULL PRIMARY KEY,
+	category VARCHAR(50) NOT NULL,
+	stock INT NOT NULL,
+	price_per_serving INT NOT NULL
+);
+
+CREATE TABLE recipe_price(
+	recipe_name VARCHAR(50) NOT NULL,
+	recipe_size INT NOT NULL,
+	price INT NOT NULL,
+	PRIMARY KEY(recipe_name, recipe_size),
+	FOREIGN KEY(recipe_name) REFERENCES recipe(recipe_name),
+	FOREIGN KEY(recipe_size) REFERENCES recipe_size(recipe_size)
+);
+
+CREATE TABLE servings(
+	ingredient_name VARCHAR(50) NOT NULL,
+	recipe_name VARCHAR(50) NOT NULL,
+	recipe_size INT NOT NULL,
+	servings INT NOT NULL,
+	PRIMARY KEY(ingredient_name, recipe_name, recipe_size),
+	FOREIGN KEY(ingredient_name) REFERENCES ingredient(ingredient_name),
+	FOREIGN KEY(recipe_name) REFERENCES recipe(recipe_name),
+	FOREIGN KEY(recipe_size) REFERENCES recipe_size(recipe_size)
+);
+
+CREATE TABLE schedule(
+	week_date DATE NOT NULL,
+	employee_id INT NOT NULL,
+	employee_role VARCHAR(50) NOT NULL,
+	PRIMARY KEY(week_date, employee_id),
+	FOREIGN KEY(week_date) REFERENCES week(week_date),
+	FOREIGN KEY(employee_id) REFERENCES employee(employee_id)
+);
+
+CREATE TABLE sale(
+	txn INT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	customer_name VARCHAR(255) NOT NULL,
+	day_date DATE NOT NULL,
+	week_date DATE NOT NULL,
+	FOREIGN KEY(week_date) REFERENCES week(week_date)
+);
+
+CREATE TABLE milkshake(
+	milkshake_id INT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	recipe_name VARCHAR(50) NOT NULL,
+	recipe_size INT NOT NULL,
+	FOREIGN KEY(recipe_name) REFERENCES recipe(recipe_name),
+	FOREIGN KEY(recipe_size) REFERENCES recipe_size(recipe_size)
+);
+
+CREATE TABLE customization(
+	milkshake_id INT NOT NULL,
+	ingredient_name VARCHAR(50) NOT NULL,
+	ingredient_quantity INT NOT NULL,
+	price_delta INT NOT NULL,
+	PRIMARY KEY(milkshake_id, ingredient_name),
+	FOREIGN KEY(milkshake_id) REFERENCES milkshake(milkshake_id),
+	FOREIGN KEY(ingredient_name) references ingredient(ingredient_name)
+);
+
+CREATE TABLE orders(
+	txn INT NOT NULL,
+	milkshake_id INT NOT NULL,
+	price INT NOT NULL,
+	PRIMARY KEY(txn, milkshake_id),
+	FOREIGN KEY(txn) REFERENCES sale(txn),
+	FOREIGN KEY(milkshake_id) REFERENCES milkshake(milkshake_id)
+);
+
+CREATE TABLE manager(
+	manager_date DATE NOT NULL PRIMARY KEY,
+	employee_id INT NOT NULL,
+	week_date DATE NOT NULL,
+	FOREIGN KEY(employee_id) REFERENCES employee(employee_id),
+	FOREIGN KEY(week_date) REFERENCES week(week_date)
+);
+
+-- Test Values:
+-- Recipe
+INSERT	INTO recipe
+VALUES	('STRAWBERRY MILKSHAKE');
+
+INSERT	INTO recipe
+VALUES	('OREO MILKSHAKE');
+
+INSERT	INTO recipe
+VALUES	('CHOCOLATE MILKSHAKE');
+
+-- Ingredient
+INSERT	INTO ingredient
+VALUES	('FULL CREAM MILK', 'MILK', 100, 20);
+
+INSERT	INTO ingredient
+VALUES	('SOY MILK', 'MILK', 100, 20);
+
+INSERT	INTO ingredient
+VALUES	('OREO', 'MIX-IN', 100, 10);
+
+INSERT	INTO ingredient
+VALUES	('CHOCOLATE', 'MIX-IN', 100, 10);
+
+INSERT	INTO ingredient
+VALUES	('STRAWBERRY', 'FRUITS', 50, 20);
+
+INSERT	INTO ingredient
+VALUES	('VANILLA ICE CREAM', 'BASE', 10, 40);
+
+INSERT	INTO ingredient
+VALUES	('CHOCOLATE ICE CREAM', 'BASE', 10, 40);
+
+INSERT	INTO ingredient
+VALUES	('WHIPPED CREAM', 'TOPPING', 10, 15);
+
+-- Recipe Size
+INSERT	INTO recipe_size
+VALUES	(1);
+
+INSERT	INTO recipe_size
+VALUES	(2);
+
+INSERT	INTO recipe_size
+VALUES	(3);
+
+-- Recipe Price
+INSERT	INTO recipe_price
+VALUES	('OREO MILKSHAKE', 1, 130);
+
+INSERT	INTO recipe_price
+VALUES	('OREO MILKSHAKE', 2, 200);
+
+INSERT	INTO recipe_price
+VALUES	('OREO MILKSHAKE', 3, 270);
+
+INSERT	INTO recipe_price
+VALUES	('CHOCOLATE MILKSHAKE', 1, 130);
+
+INSERT	INTO recipe_price
+VALUES	('CHOCOLATE MILKSHAKE', 2, 200);
+
+INSERT	INTO recipe_price
+VALUES	('CHOCOLATE MILKSHAKE', 3, 270);
+
+-- Servings
+INSERT	INTO servings
+VALUES	('OREO', 'OREO MILKSHAKE', 1, 1);
+
+INSERT	INTO servings
+VALUES	('OREO', 'OREO MILKSHAKE', 2, 2);
+
+INSERT	INTO servings
+VALUES	('OREO', 'OREO MILKSHAKE', 3, 3);
+
+INSERT	INTO servings
+VALUES	('VANILLA ICE CREAM', 'OREO MILKSHAKE', 1, 2);
+
+INSERT	INTO servings
+VALUES	('VANILLA ICE CREAM', 'OREO MILKSHAKE', 2, 3);
+
+INSERT	INTO servings
+VALUES	('VANILLA ICE CREAM', 'OREO MILKSHAKE', 3, 4);
+         
+INSERT	INTO servings
+VALUES	('FULL CREAM MILK', 'OREO MILKSHAKE', 1, 1);
+         
+INSERT	INTO servings
+VALUES	('FULL CREAM MILK', 'OREO MILKSHAKE', 2, 2);
+         
+INSERT	INTO servings
+VALUES	('FULL CREAM MILK', 'OREO MILKSHAKE', 3, 3);
+         
+INSERT	INTO servings
+VALUES	('WHIPPED CREAM', 'OREO MILKSHAKE', 1, 1);
+
+INSERT	INTO servings
+VALUES	('WHIPPED CREAM', 'OREO MILKSHAKE', 2, 1);
+
+INSERT	INTO servings
+VALUES	('WHIPPED CREAM', 'OREO MILKSHAKE', 3, 1);
+         
+INSERT	INTO servings
+VALUES	('CHOCOLATE', 'CHOCOLATE MILKSHAKE', 1, 1);
+
+INSERT	INTO servings
+VALUES	('CHOCOLATE', 'CHOCOLATE MILKSHAKE', 2, 2);
+
+INSERT	INTO servings
+VALUES	('CHOCOLATE', 'CHOCOLATE MILKSHAKE', 3, 3);
+
+INSERT	INTO servings
+VALUES	('VANILLA ICE CREAM', 'CHOCOLATE MILKSHAKE', 1, 2);
+
+INSERT	INTO servings
+VALUES	('VANILLA ICE CREAM', 'CHOCOLATE MILKSHAKE', 2, 3);
+
+INSERT	INTO servings
+VALUES	('VANILLA ICE CREAM', 'CHOCOLATE MILKSHAKE', 3, 4);
+         
+INSERT	INTO servings
+VALUES	('FULL CREAM MILK', 'CHOCOLATE MILKSHAKE', 1, 1);
+         
+INSERT	INTO servings
+VALUES	('FULL CREAM MILK', 'CHOCOLATE MILKSHAKE', 2, 2);
+         
+INSERT	INTO servings
+VALUES	('FULL CREAM MILK', 'CHOCOLATE MILKSHAKE', 3, 3);
+         
+INSERT	INTO servings
+VALUES	('WHIPPED CREAM', 'CHOCOLATE MILKSHAKE', 1, 1);
+
+INSERT	INTO servings
+VALUES	('WHIPPED CREAM', 'CHOCOLATE MILKSHAKE', 2, 1);
+
+INSERT	INTO servings
+VALUES	('WHIPPED CREAM', 'CHOCOLATE MILKSHAKE', 3, 1);
+-- week
+INSERT	INTO week
+VALUES	('2021-12-06');
+
+INSERT	INTO week
+VALUES	('2021-12-13');
+
+INSERT	INTO week
+VALUES	('2021-12-20');
+
+-- employee
+INSERT	INTO employee
+VALUES	(DEFAULT,'ICHI');
+
+INSERT	INTO employee
+VALUES	(DEFAULT,'ONII');
+
+INSERT	INTO employee
+VALUES	(DEFAULT,'SAN');
+
+-- sched
+INSERT	INTO schedule
+VALUES	('2021-12-06', 1,'CASHIER');
+
+INSERT	INTO schedule
+VALUES	('2021-12-06', 2,'PREPARATION');
+
+INSERT	INTO schedule
+VALUES	('2021-12-06', 3,'CLEANING');
+
+INSERT	INTO schedule
+VALUES	('2021-12-13', 1,'PREPARATION');
+
+INSERT	INTO schedule
+VALUES	('2021-12-13', 2,'CLEANING');
+
+INSERT	INTO schedule
+VALUES	('2021-12-13', 3,'CASHIER');
+
+INSERT	INTO schedule
+VALUES	('2021-12-20', 1,'CLEANING');
+
+INSERT	INTO schedule
+VALUES	('2021-12-20', 2,'CASHIER');
+
+INSERT	INTO schedule
+VALUES	('2021-12-20', 3,'PREPARATION');
+
+-- manager
+INSERT	INTO manager
+VALUES	('2021-12-06', 1, '2021-12-06');
+
+INSERT	INTO manager
+VALUES	('2021-12-07', 1, '2021-12-06');
+
+INSERT	INTO manager
+VALUES	('2021-12-08', 1, '2021-12-06');
+
+INSERT	INTO manager
+VALUES	('2021-12-09', 2, '2021-12-06');
+
+INSERT	INTO manager
+VALUES	('2021-12-10', 2, '2021-12-06');
+
+INSERT	INTO manager
+VALUES	('2021-12-11', 3, '2021-12-06');
+
+INSERT	INTO manager
+VALUES	('2021-12-12', 3, '2021-12-06');
+
+INSERT	INTO manager
+VALUES	('2021-12-13', 1, '2021-12-13');
+
+INSERT	INTO manager
+VALUES	('2021-12-14', 1, '2021-12-13');
+
+INSERT	INTO manager
+VALUES	('2021-12-15', 1, '2021-12-13');
+
+INSERT	INTO manager
+VALUES	('2021-12-16', 2, '2021-12-13');
+
+INSERT	INTO manager
+VALUES	('2021-12-17', 2, '2021-12-13');
+
+INSERT	INTO manager
+VALUES	('2021-12-18', 3, '2021-12-13');
+
+INSERT	INTO manager
+VALUES	('2021-12-19', 3, '2021-12-13');
+
+INSERT	INTO manager
+VALUES	('2021-12-20', 1, '2021-12-20');
+
+INSERT	INTO manager
+VALUES	('2021-12-21', 1, '2021-12-20');
+
+INSERT	INTO manager
+VALUES	('2021-12-22', 1, '2021-12-20');
+
+INSERT	INTO manager
+VALUES	('2021-12-23', 2, '2021-12-20');
+
+INSERT	INTO manager
+VALUES	('2021-12-24', 2, '2021-12-20');
+
+INSERT	INTO manager
+VALUES	('2021-12-25', 3, '2021-12-20');
+
+INSERT	INTO manager
+VALUES	('2021-12-26', 3, '2021-12-20');
+
+-- milkshake
+INSERT	INTO milkshake
+VALUES	(DEFAULT,'OREO MILKSHAKE', 1);
+
+INSERT	INTO milkshake
+VALUES	(DEFAULT,'CHOCOLATE MILKSHAKE', 1);
+
+INSERT	INTO milkshake
+VALUES	(DEFAULT,'OREO MILKSHAKE', 3);
+
+
+-- customization
+INSERT	INTO customization
+VALUES	(1,'OREO', 1, 10);
+
+INSERT	INTO customization
+VALUES	(2,'OREO', -1, 10);
+
+INSERT	INTO customization
+VALUES	(1,'CHOCOLATE', 1, 10);
+
+--sale
+INSERT	INTO sale
+VALUES	(DEFAULT,'JOHNNY', '2021-12-07', '2021-12-06');
+
+INSERT	INTO sale
+VALUES	(DEFAULT,'JOLYNE', '2021-12-09', '2021-12-06');
+
+INSERT	INTO sale
+VALUES	(DEFAULT,'JOSEPH', '2021-12-13', '2021-12-13');
+
+-- orders
+INSERT	INTO orders
+VALUES	(1,1,130);
+
+INSERT	INTO orders
+VALUES	(2,2,150);
+
+INSERT	INTO orders
+VALUES	(3,3,120);
