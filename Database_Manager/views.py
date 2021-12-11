@@ -33,7 +33,9 @@ def recipes(request):
         'recipe_size': RecipeSize.objects.all(),
         'recipe_price': RecipePrice.objects.all(),
         'servings': Servings.objects.all(),
-        'servingsA': Servings.objects.raw('SELECT DISTINCT ingredient_name, recipe_name, recipe_size, servings FROM Servings'),
+        'servings_ingredients': Servings.objects.raw('SELECT DISTINCT ingredient_name, recipe_name FROM Servings'),
+        'servings_size': Servings.objects.raw('SELECT ingredient_name, servings, recipe_size FROM Servings'),
+        
     }
     return render(request, 'Database_Manager/recipes.html', context)
 
