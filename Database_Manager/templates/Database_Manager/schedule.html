@@ -6,22 +6,39 @@
 
 {% block content %}
     <h1>Blizzard Blast's Schedule</h1>
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Week Date</th>
-            <th scope="col">Employee</th>
-            <th scope="col">Employee Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for schedule in schedule %}
-            <tr>
-              <th scope="row">{{ schedule.week_date.week_date }}</th>
-              <td>{{ schedule.employee.name }}</td>
-              <td>{{ schedule.employee_role }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+
+        {% for week in week %}
+          <table class="table"> 
+            <thead>
+              <th scope="col">{{ week.week_date }}</td>
+            </thead>
+
+            <thead>
+                <th scope="col">Employee</th>
+                <th scope="col">Role</th>
+                <th scope="col">Manager Days</th>
+            </thead>
+              
+            <tbody>
+              {% for schedule in schedule %}
+                {% if schedule.week_date.week_date == week.week_date %}
+                  <tr>
+                    <td>{{ schedule.employee.name }}</td>
+                    <td>{{ schedule.employee_role }}</td>
+                    
+                    {% for manager in manager %}
+                      {% if manager.week_date.week_date == week.week_date %}
+                        {% if manager.employee == schedule.employee %}
+                          <td> {{ manager.manager_date }}</td>
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                  </tr>
+                {% endif %}
+              {% endfor %}
+            </tbody>
+
+          </table> 
+        {% endfor %}
+
 {% endblock content %}

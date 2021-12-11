@@ -3,25 +3,15 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 from .forms import *
 
-# Create your views here.
+# Select views
 def new_sale(request):
-    # form = OrderForm
-    # context = {
-    #     'form': form, 
-    # }
-    
-    # if request.method == "POST":
-    #     form = OrderForm(request.POST)
-        
-    #     if form.is_valid():
-    #         form.save()
-    #         return HttpResponseRedirect('/')
-            
     return render(request, 'Database_Manager/new_sale.html')
 
+
+# List views
 def inventory(request):
     context = {
-        'ingredient': Ingredient.objects.all()
+        'ingredient': Ingredient.objects.all().order_by('category', 'ingredient_name')
     }
     return render(request, 'Database_Manager/inventory.html', context)
 
@@ -37,15 +27,17 @@ def employees(request):
     }
     return render(request, 'Database_Manager/employees.html', context)
 
-def schedule(request):
-    context = {
-        'schedule': Schedule.objects.all()
-    }
-    return render(request, 'Database_Manager/schedule.html', context)
-
 def sales_list(request):
     context = {
-        'sale': Sale.objects.all()
+        'sale': Sale.objects.all().order_by('-txn')
     }
     return render(request, 'Database_Manager/sales_list.html', context)
-    
+
+def schedule(request):
+    context = {
+        'schedule': Schedule.objects.all(),
+        'employee': Employee.objects.all(),
+        'manager': Manager.objects.all(),
+        'week': Week.objects.all(),
+    }
+    return render(request, 'Database_Manager/schedule.html', context)
