@@ -5,23 +5,36 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>Blizzard Blast's Recipes</h1>
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Recipe Name</th>
-            <th scope="col">Size</th>
-            <th scope="col">Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for recipe in recipe %}
-            <tr>
-              <th scope="row">{{ recipe.recipe_name.recipe_name }}</th>
-              <td>{{ recipe.recipe_size.recipe_size }}</td>
-              <td>{{ recipe.price }}</td>
-            </tr>
+  <h1>Blizzard Blast's Recipes</h1>
+  
+  {% for recipe in recipe %}
+    <table class="table"> 
+      <thead>
+        <th scope="col">{{ recipe.recipe_name }}</td>
+      </thead>
+
+      <thead>
+          <th scope="col">Ingredient</th>
+          {% for recipe_size in recipe_size %}
+          <th scope="col">{{ recipe_size.recipe_size }}</th>
           {% endfor %}
-        </tbody>
-      </table>
+      </thead>
+
+      <tbody>
+        <tr><td>{{ servingsA }}</td></tr>
+        {% for servingsA in servingsA %}
+          {% if servings.recipe_name == recipe %}
+
+                <tr>
+                  <td>{{ servingsA }}</td>
+                  <td>{{ servings.servings }}</td>
+                </tr>
+
+          {% endif %}
+        {% endfor %}
+      </tbody>
+
+    </table> 
+  {% endfor %}
+
 {% endblock content %}

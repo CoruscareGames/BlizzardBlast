@@ -11,21 +11,14 @@ def new_sale(request):
 # List views
 def inventory(request):
     context = {
-        'ingredient': Ingredient.objects.all().order_by('category', 'ingredient_name')
+        'ingredient': Ingredient.objects.raw(''' SELECT	ingredient_name, 
+                                                        category,
+                                                        stock
+                                                FROM	ingredient
+                                                ORDER BY stock, ingredient_name''')
     }
     return render(request, 'Database_Manager/inventory.html', context)
 
-def recipes(request):
-    context = {
-        'recipe': RecipePrice.objects.all()
-    }
-    return render(request, 'Database_Manager/recipes.html', context)
-
-def employees(request):
-    context = {
-        'employee': Employee.objects.all()
-    }
-    return render(request, 'Database_Manager/employees.html', context)
 
 def sales_list(request):
     context = {
@@ -33,10 +26,21 @@ def sales_list(request):
     }
     return render(request, 'Database_Manager/sales_list.html', context)
 
+
+def recipes(request):
+    context = {
+        'recipe': Recipe.objects.all(),
+        'recipe_size': RecipeSize.objects.all(),
+        'recipe_price': RecipePrice.objects.all(),
+        'servings': Servings.objects.all(),
+        'servingsA': Servings.objects.raw('SELECT DISTINCT ingredient_name, recipe_name, recipe_size, servings FROM Servings'),
+    }
+    return render(request, 'Database_Manager/recipes.html', context)
+
+
 def schedule(request):
     context = {
         'schedule': Schedule.objects.all(),
-        'employee': Employee.objects.all(),
         'manager': Manager.objects.all(),
         'week': Week.objects.all(),
     }
