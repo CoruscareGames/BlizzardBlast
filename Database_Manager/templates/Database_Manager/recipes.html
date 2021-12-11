@@ -28,7 +28,9 @@
 
               {% for servings_size in servings_size %}
                 {% if servings_size.ingredient_name == servings_ingredients.ingredient_name %}
-                  <td>{{ servings_size.servings }}</td>
+                  {% if servings_size.recipe_name == servings_ingredients.recipe_name %}
+                    <td>{{ servings_size.servings }}</td>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
               
