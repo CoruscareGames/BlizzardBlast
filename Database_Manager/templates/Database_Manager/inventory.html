@@ -22,6 +22,9 @@
               <td>{{ ingredient.category }}</td>
               <td>{{ ingredient.stock }}</td>
               <td>{{ ingredient.price_per_serving }}</td>
+              <td>
+                <a href="{% url 'manage_ingredient' ingredient.ingredient_name %}">Update</a>
+              </td>
             </tr>
           {% endfor %}
         </tbody>

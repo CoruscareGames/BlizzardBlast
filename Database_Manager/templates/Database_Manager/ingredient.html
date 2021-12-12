@@ -1,0 +1,23 @@
+{% extends "Database_Manager/base.html" %}
+
+{% block title %}
+    {{ ingredient.ingredient_name }}
+{% endblock title %}
+
+{% block content %}
+    <h1>Blizzard Blast's Inventory</h1>
+    <br/>
+    <h2>Update {{ ingredient.ingredient_name }} </h2>
+    <br/>
+    
+
+    <form method=POST>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br/>
+        <a href="{% url 'inventory' %}" class="btn btn-secondary">Go Back</a>
+        <input type="submit" value="Update" class="btn btn-success">
+    </form>
+
+    
+{% endblock content %}

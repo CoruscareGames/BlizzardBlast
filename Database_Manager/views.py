@@ -1,10 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 from .forms import *
 
 # Form views
+def manage_ingredient(request, ingredient_name):
+    ingredient = Ingredient.objects.get(pk=ingredient_name)
+    form = IngredientForm(request.POST or None, instance=ingredient)
+    context = {
+        'ingredient': ingredient,
+        'form': form
+    }
 
+    if form.is_valid():
+        form.save()
+        return redirect('inventory')
+    return render(request, 'Database_Manager/ingredient.html', context)
 
 
 # Select views
@@ -20,7 +31,7 @@ def report(request):
                                             ORDER BY COUNT(recipe_name) DESC        
                                             ''')
     }
-    return render(request, 'Database_Manager/report.html', context)
+    return render(request, 'Database_Manager/report.html')
 
 
 # List views
