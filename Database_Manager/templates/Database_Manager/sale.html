@@ -22,7 +22,7 @@
               <td>{{ sale.day_date }}</td>
             </tr>
         </tbody>
-      </table> <br>
+      </table>
 
     <table class="table">
       <tr>
@@ -33,16 +33,37 @@
       {% for orders in orders %}
         {% if orders.txn == sale %}
           <tr>
-            <td>{{ orders.milkshake.recipe_size }} {{ orders.milkshake.recipe_name }}<br></td>
+            <td>{{ orders.milkshake.recipe_size }} {{ orders.milkshake.recipe_name }}</td>
             <td></td>
-            <td>{{ orders.price }}</td>
+            <td>
+              {% for recipe_price in recipe_price %}
+                {% if orders.milkshake.recipe_size == recipe_price.recipe_size and orders.milkshake.recipe_name == recipe_price.recipe_name %}
+                  {{ recipe_price.price }}
+                {% endif %}
+              {% endfor %}
+            </td>
           </tr>
+          {% for customization in customization %}
+            {% if customization.milkshake_id == orders.milkshake_id %}
+              <tr>
+                <td>{{ customization.ingredient_quantity }} {{ customization.ingredient_name }}</td>
+                <td>{{ customization.price_delta }}</td>
+                <td></td>
+              </tr>
+            {% endif %}
+          {% endfor %}
         {%  endif %}
       {% endfor %}
       <tr>
         <td></td>
         <td><b>Total</b></td>
-        <td><b>(Amount)</b></td>
+        <td><b>
+          {% for orders in orders %}
+            {% if orders.txn == sale %}
+              {{ orders.price }}
+            {% endif %}
+          {% endfor %}
+        </b></td>
       </tr>      
     </table>
 {% endblock content %}

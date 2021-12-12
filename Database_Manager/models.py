@@ -35,6 +35,9 @@ class Ingredient(models.Model):
         managed = False
         db_table = 'ingredient'
 
+    def __str__(self):
+        return self.ingredient_name
+
 
 class Manager(models.Model):
     manager_date = models.DateField(primary_key=True)
