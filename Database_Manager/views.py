@@ -1,74 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic.detail import DetailView 
 from .models import *
 from .forms import *
 
-# Form views
-def create_ingredient(request):
-    form = IngredientForm()
-    update = False
-    context = {
-        'form': form,
-        'update': update,
-    }
-
-    if request.method == 'POST':
-        form = IngredientForm(request.POST)
-        
-        if form.is_valid():
-            form.save()
-            return redirect('inventory')
-            
-    return render(request, 'Database_Manager/ingredient.html', context)
-
-
-def manage_ingredient(request, ingredient_name):
-    ingredient = Ingredient.objects.get(pk=ingredient_name)
-    form = IngredientForm(request.POST or None, instance=ingredient)
-    update = True
-    context = {
-        'ingredient': ingredient,
-        'form': form,
-        'update': update,
-    }
-
-    if form.is_valid():
-        form.save()
-        return redirect('inventory')
-
-    return render(request, 'Database_Manager/ingredient.html', context)
-
-
-def delete_ingredient(request, ingredient_name):
-    ingredient = Ingredient.objects.get(pk=ingredient_name)
-    ingredient.delete()
-    
-    return redirect('inventory')
-
-
 # Select views
-def report(request):
-    context = {
-        'milkshake': Milkshake.objects.raw('''SELECT	recipe_name,
-                                                    COUNT(recipe_name)
-                                            FROM	milkshake
-                                            INNER JOIN orders on milkshake.milkshake_id = orders.milkshake_id
-                                            INNER JOIN sale on orders.txn = sale.txn
-                                            WHERE	week_date BETWEEN '2021-12-06' AND '2021-12-12'
-                                            GROUP BY recipe_name
-                                            ORDER BY COUNT(recipe_name) DESC        
-                                            ''')
-    }
-    return render(request, 'Database_Manager/report.html')
+def new_sale(request):
+    return render(request, 'Database_Manager/new_sale.html')
 
 
 # List views
-def sales_list(request):
-    context = {
-        'sale': Sale.objects.all().order_by('-txn')
-    }
-    return render(request, 'Database_Manager/sales_list.html', context)
-
 def inventory(request):
     context = {
         'ingredient': Ingredient.objects.raw(''' SELECT	ingredient_name, 
@@ -80,15 +21,20 @@ def inventory(request):
     return render(request, 'Database_Manager/inventory.html', context)
 
 
+def sales_list(request):
+    context = {
+        'sale': Sale.objects.all().order_by('-txn')
+    }
+    return render(request, 'Database_Manager/sales_list.html', context)
+
+
 def recipes(request):
     context = {
         'recipe': Recipe.objects.all(),
         'recipe_size': RecipeSize.objects.all(),
         'recipe_price': RecipePrice.objects.all(),
         'servings': Servings.objects.all(),
-        'servings_ingredients': Servings.objects.raw('SELECT DISTINCT ingredient_name, recipe_name FROM Servings'),
-        'servings_size': Servings.objects.raw('SELECT ingredient_name, servings, recipe_size, recipe_name FROM Servings'),
-        
+        'servingsA': Servings.objects.raw('SELECT DISTINCT ingredient_name, recipe_name, recipe_size, servings FROM Servings'),
     }
     return render(request, 'Database_Manager/recipes.html', context)
 
@@ -100,3 +46,8 @@ def schedule(request):
         'week': Week.objects.all(),
     }
     return render(request, 'Database_Manager/schedule.html', context)
+
+# detail view for each individual sale
+class sale(DetailView):
+    model = Sale
+    template_name = 'Database_Manager/sale.html'

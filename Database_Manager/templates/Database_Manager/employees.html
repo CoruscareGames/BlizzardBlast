@@ -1,0 +1,25 @@
+{% extends "Database_Manager/base.html" %}
+
+{% block title %}
+    Employees
+{% endblock title %}
+
+{% block content %}
+    <h1>Blizzard Blast's Employees</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Employee ID</th>
+            <th scope="col">Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for employee in employee %}
+            <tr>
+              <th scope="row">{{ employee.employee_id }}</th>
+              <td>{{ employee.name }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+{% endblock content %}

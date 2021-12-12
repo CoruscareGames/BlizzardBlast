@@ -1,0 +1,46 @@
+{% extends "Database_Manager/base.html" %}
+
+{% block title %}
+    Sale No. {{ object.txn }}
+{% endblock title %}
+
+{% block content %}
+    <h1>Transaction No. {{ object.txn }}</h1> <br>
+    <button type="button" onclick="window.location.href='/sales_list';">Back</button><br>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Customer Name</th>
+            <th scope="col">Txn</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td>{{ sale.customer_name }}</td>
+              <td>{{ sale.txn }}</td>
+              <td>{{ sale.day_date }}</td>
+            </tr>
+        </tbody>
+      </table> <br>
+
+    <table class="table">
+      <tr>
+        <th>Order</th>
+        <th>Amount</th>
+        <th>Subtotal</th>
+      </tr>
+      {% for orders in orders %}
+      <tr>
+        <td>{{ orders.milkshake_id }}</td>
+        <td></td>
+        <td></td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td><b>Total</b></td>
+        <td></td>
+        <td><b>(Amount)</b></td>
+      </tr>      
+    </table>
+{% endblock content %}

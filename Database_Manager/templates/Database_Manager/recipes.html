@@ -16,25 +16,20 @@
       <thead>
           <th scope="col">Ingredient</th>
           {% for recipe_size in recipe_size %}
-          <th scope="col">{{ recipe_size.recipe_size }}oz</th>
+          <th scope="col">{{ recipe_size.recipe_size }}</th>
           {% endfor %}
       </thead>
 
       <tbody>
-        {% for servings_ingredients in servings_ingredients %}
-          {% if servings_ingredients.recipe_name == recipe %}
-            <tr>
-              <td>{{ servings_ingredients.ingredient_name.ingredient_name }}</td>
+        <tr><td>{{ servingsA }}</td></tr>
+        {% for servingsA in servingsA %}
+          {% if servings.recipe_name == recipe %}
 
-              {% for servings_size in servings_size %}
-                {% if servings_size.ingredient_name == servings_ingredients.ingredient_name %}
-                  {% if servings_size.recipe_name == servings_ingredients.recipe_name %}
-                    <td>{{ servings_size.servings }}</td>
-                  {% endif %}
-                {% endif %}
-              {% endfor %}
-              
-            </tr>
+                <tr>
+                  <td>{{ servingsA }}</td>
+                  <td>{{ servings.servings }}</td>
+                </tr>
+
           {% endif %}
         {% endfor %}
       </tbody>
