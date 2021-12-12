@@ -16,7 +16,13 @@
       <thead>
           <th scope="col">Ingredient</th>
           {% for recipe_size in recipe_size %}
-          <th scope="col">{{ recipe_size.recipe_size }}oz</th>
+          {% if recipe_size.recipe_size == 1 %}
+            <th scope="col">Small</th>
+          {% elif recipe_size.recipe_size == 2 %}
+            <th scope="col">Medium</th>
+          {% elif recipe_size.recipe_size == 3 %}
+            <th scope="col">Large</th>
+          {% endif %}
           {% endfor %}
       </thead>
 
