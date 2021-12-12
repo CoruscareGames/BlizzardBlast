@@ -4,17 +4,38 @@ from .models import *
 from .forms import *
 
 # Form views
+def create_ingredient(request):
+    form = IngredientForm()
+    update = False
+    context = {
+        'form': form,
+        'update': update,
+    }
+
+    if request.method == 'POST':
+        form = IngredientForm(request.POST)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('inventory')
+            
+    return render(request, 'Database_Manager/ingredient.html', context)
+
+
 def manage_ingredient(request, ingredient_name):
     ingredient = Ingredient.objects.get(pk=ingredient_name)
     form = IngredientForm(request.POST or None, instance=ingredient)
+    update = True
     context = {
         'ingredient': ingredient,
-        'form': form
+        'form': form,
+        'update': update,
     }
 
     if form.is_valid():
         form.save()
         return redirect('inventory')
+
     return render(request, 'Database_Manager/ingredient.html', context)
 
 
