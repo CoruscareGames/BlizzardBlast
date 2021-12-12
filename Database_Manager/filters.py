@@ -8,5 +8,5 @@ class SaleFilter(django_filters.FilterSet):
 
     class Meta:
         model = Sale
-        fields = []
+        fields = ['week_date', 'txn']
         

@@ -6,12 +6,15 @@
 
 {% block content %}
     <h1>Blizzard Blast's Sale Report</h1>
+    <br/>
 
+    <h2>Filter Data</h2>
     <form method="GET">
         {{ sale_filter.form }}
         <button class="btn btn-primary" type="submit">Search</button>
     </form>
 
+    <br/>
     <table class="table">
         <thead>
             <tr>
