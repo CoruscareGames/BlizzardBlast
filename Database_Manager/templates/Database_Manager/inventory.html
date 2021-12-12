@@ -26,7 +26,10 @@
               <td>{{ ingredient.stock }}</td>
               <td>{{ ingredient.price_per_serving }}</td>
               <td>
-                <a href="{% url 'manage_ingredient' ingredient.ingredient_name %}">Update</a>
+                <a href="{% url 'manage_ingredient' ingredient.ingredient_name %}" class="btn btn-outline-info">Update</a>
+              </td>
+              <td>
+                <a href="{% url 'delete_ingredient' ingredient.ingredient_name %}" class="btn btn-outline-danger">Delete</a>
               </td>
             </tr>
           {% endfor %}

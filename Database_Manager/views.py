@@ -39,6 +39,13 @@ def manage_ingredient(request, ingredient_name):
     return render(request, 'Database_Manager/ingredient.html', context)
 
 
+def delete_ingredient(request, ingredient_name):
+    ingredient = Ingredient.objects.get(pk=ingredient_name)
+    ingredient.delete()
+    
+    return redirect('inventory')
+
+
 # Select views
 def report(request):
     context = {
