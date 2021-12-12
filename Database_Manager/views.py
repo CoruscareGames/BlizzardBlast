@@ -47,7 +47,17 @@ def schedule(request):
     }
     return render(request, 'Database_Manager/schedule.html', context)
 
-# detail view for each individual sale
-class sale(DetailView):
-    model = Sale
-    template_name = 'Database_Manager/sale.html'
+
+def sale_details(request,txn):
+    context = {
+        'sale' : Sale.objects.get(pk=txn),
+        'orders': Orders.objects.raw('SELECT * FROM orders, sale WHERE sale.txn=orders.txn'),
+        #'total': Orders.objects.raw('SELECT SUM(price) AS total FROM orders,sale WHERE orders.txn=sale.txn'),
+        'milkshake': Milkshake.objects.all(),
+        'recipe_price': RecipePrice.objects.raw('SELECT * FROM milkshake, recipe_price WHERE recipe_price.recipe_name=milkshake.recipe_name AND recipe_price.recipe_size = milkshake.recipe_size')
+    }
+    return render (request, 'Database_Manager/sale.html', context)
+
+    #model = Sale
+    #template_name = 'Database_Manager/sale.html'
+
