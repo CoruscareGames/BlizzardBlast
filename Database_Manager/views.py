@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 from .forms import *
+from .filters import *
 
 # Form views
 def create_ingredient(request):
@@ -48,9 +49,14 @@ def delete_ingredient(request, ingredient_name):
 
 # Select views
 def report(request):
+    sale = Sale.objects.all()
+    sale_filter = SaleFilter(request.GET, queryset=sale)
+    sale = sale_filter.qs
     context = {
-        'milkshake': Milkshake.objects.all()
+        'sale': sale,
+        'sale_filter': sale_filter,
     }
+
     return render(request, 'Database_Manager/report.html', context)
 
 
