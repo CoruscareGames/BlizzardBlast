@@ -21,7 +21,6 @@
                 <th scope="col">TXN</th>
                 <th scope="col">Customer Name</th>
                 <th scope="col">Day</th>
-                <th scope="col">First Monday of the week</th>
             </tr>
         </thead>
 
@@ -31,7 +30,6 @@
                     <td>{{ sale.txn }}</td>
                     <td>{{ sale.customer_name }}</td>
                     <td>{{ sale.day_date }}</td>
-                    <td>{{ sale.week_date.week_date }}</td>
                 </tr>
             {% endfor %}
         </tbody>
