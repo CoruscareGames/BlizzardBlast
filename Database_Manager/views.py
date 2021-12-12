@@ -49,17 +49,9 @@ def delete_ingredient(request, ingredient_name):
 # Select views
 def report(request):
     context = {
-        'milkshake': Milkshake.objects.raw('''SELECT	recipe_name,
-                                                    COUNT(recipe_name)
-                                            FROM	milkshake
-                                            INNER JOIN orders on milkshake.milkshake_id = orders.milkshake_id
-                                            INNER JOIN sale on orders.txn = sale.txn
-                                            WHERE	week_date BETWEEN '2021-12-06' AND '2021-12-12'
-                                            GROUP BY recipe_name
-                                            ORDER BY COUNT(recipe_name) DESC        
-                                            ''')
+        'milkshake': Milkshake.objects.all()
     }
-    return render(request, 'Database_Manager/report.html')
+    return render(request, 'Database_Manager/report.html', context)
 
 
 # List views
