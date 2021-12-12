@@ -2,10 +2,12 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.new_sale, name='manage_home'),
-    path('inventory/', views.inventory, name='manage_inventory'),
-    path('recipes/', views.recipes, name='manage_recipes'),
-    path('employees/', views.employees, name='manage_employees'),
-    path('schedule/', views.schedule, name='manage_schedule'),
-    path('sales_list/', views.sales_list, name='manage_sales_list'),
+    path('report/', views.report, name='report'),
+    path('inventory/', views.inventory, name='inventory'),
+    path('recipes/', views.recipes, name='recipes'),
+    path('schedule/', views.schedule, name='schedule'),
+    path('', views.sales_list, name='sales_list'),
+    path('inventory/create_ingredient', views.create_ingredient, name='create_ingredient'),
+    path('inventory/manage/<ingredient_name>', views.manage_ingredient, name='manage_ingredient'),
+    path('inventory/delete/<ingredient_name>', views.delete_ingredient, name='delete_ingredient'),
 ]

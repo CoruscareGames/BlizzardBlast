@@ -1,0 +1,16 @@
+{% extends "Database_Manager/base.html" %}
+
+{% block title %}
+    New Sale
+{% endblock title %}
+
+{% block content %}
+    <h1>Blizzard Blast's Sale Report</h1>
+        <table class="table">
+            {% for milkshake in milkshake %}
+                {{ milkshake.recipe_name }}
+                {{ milkshake.ingredient_name }}
+            {% endfor %}
+        </table>    
+
+{% endblock content %}

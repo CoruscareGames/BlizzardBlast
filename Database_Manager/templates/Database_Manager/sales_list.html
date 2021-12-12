@@ -10,20 +10,18 @@
         <thead>
           <tr>
             <th scope="col">Txn</th>
-            <th scope="col">Date</th>
-            <th scope="col">Name</th>
-            <th scope="col">Ordered</th>
-            <th scope="col">Total</th>
+            <th scope="col">Customer Name</th>
+            <th scope="col">Day</th>
+            <th scope="col">Week</th>
           </tr>
         </thead>
         <tbody>
-          {% for sales in sales %}
+          {% for sale in sale %}
             <tr>
-              <th scope="row">{{ sales.txn }}</th>
-              <td>{{ sales.date_ordered }}</td>
-              <td>{{ sales.customer_name }}</td>
-              <td>{{ sales.milkshake_ordered }}</td>
-              <td>{{ sales.total }}</td>
+              <th scope="row">{{ sale.txn }}</th>
+              <td>{{ sale.customer_name }}</td>
+              <td>{{ sale.day_date }}</td>
+              <td>{{ sale.week_date.week_date }}</td>
             </tr>
           {% endfor %}
         </tbody>

@@ -5,5 +5,41 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>Recipes</h1>
+  <h1>Blizzard Blast's Recipes</h1>
+  
+  {% for recipe in recipe %}
+    <table class="table"> 
+      <thead>
+        <th scope="col">{{ recipe.recipe_name }}</td>
+      </thead>
+
+      <thead>
+          <th scope="col">Ingredient</th>
+          {% for recipe_size in recipe_size %}
+          <th scope="col">{{ recipe_size.recipe_size }}oz</th>
+          {% endfor %}
+      </thead>
+
+      <tbody>
+        {% for servings_ingredients in servings_ingredients %}
+          {% if servings_ingredients.recipe_name == recipe %}
+            <tr>
+              <td>{{ servings_ingredients.ingredient_name.ingredient_name }}</td>
+
+              {% for servings_size in servings_size %}
+                {% if servings_size.ingredient_name == servings_ingredients.ingredient_name %}
+                  {% if servings_size.recipe_name == servings_ingredients.recipe_name %}
+                    <td>{{ servings_size.servings }}</td>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+              
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+
+    </table> 
+  {% endfor %}
+
 {% endblock content %}

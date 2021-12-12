@@ -1,0 +1,35 @@
+{% extends "Database_Manager/base.html" %}
+
+{% block title %}
+    {% if update %}    
+        {{ ingredient.ingredient_name }}
+    {% else %}
+        New Ingredien
+    {% endif %}
+{% endblock title %}
+
+{% block content %}
+    <h1>Blizzard Blast's Inventory</h1>
+    <br/>
+    {% if update %}
+        <h2>Update {{ ingredient.ingredient_name }} </h2>
+    {% else %}
+        <h2>New Ingredient</h2>
+    {% endif %}
+    <br/>
+    
+
+    <form method=POST>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br/>
+        <a href="{% url 'inventory' %}" class="btn btn-secondary">Go Back</a>
+        {% if update %}
+            <input type="submit" value="Update" class="btn btn-success">
+        {% else %}
+            <input type="submit" class="btn btn-success">
+        {% endif %}
+    </form>
+
+    
+{% endblock content %}

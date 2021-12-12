@@ -5,5 +5,34 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>Inventory</h1>
+    <h1>Blizzard Blast's Inventory</h1>
+    <a href="{% url 'create_ingredient' %}" class="btn btn-warning">New Ingredient</a>
+    <br/>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Ingredient name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Price per Serving</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ingredient in ingredient %}
+            <tr>
+              <th scope="row">{{ ingredient.ingredient_name }}</th>
+              <td>{{ ingredient.category }}</td>
+              <td>{{ ingredient.stock }}</td>
+              <td>{{ ingredient.price_per_serving }}</td>
+              <td>
+                <a href="{% url 'manage_ingredient' ingredient.ingredient_name %}" class="btn btn-outline-info">Update</a>
+              </td>
+              <td>
+                <a href="{% url 'delete_ingredient' ingredient.ingredient_name %}" class="btn btn-outline-danger">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 {% endblock content %}

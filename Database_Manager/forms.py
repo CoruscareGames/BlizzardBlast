@@ -1,8 +1,16 @@
 from django import forms
+from django.db.models.base import Model
 from django.forms import ModelForm
+from django.forms.models import modelform_factory
 from .models import *
 
-class OrderForm(ModelForm):
+class IngredientForm(ModelForm):
     class Meta:
-        model = OrderSample
-        fields = ('txn', 'date_ordered', 'customer_name', 'milkshake_ordered', 'total')
+        model = Ingredient
+        fields = ('ingredient_name', 'category', 'stock', 'price_per_serving',)
+        lbales = {
+            'ingredient_name': 'Ingredient Name',
+            'category': 'Category',
+            'stock': 'Quantity',
+            'price_per_serving': 'Price Per Serving',
+        }
