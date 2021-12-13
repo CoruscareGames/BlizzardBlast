@@ -106,7 +106,7 @@ def create_customization(request):
                     );
                 ''',
                 {
-                    "milkshake": formCustomizationCleaned["milkshake_id"].milkshake_id,
+                    "milkshake": formCustomizationCleaned["milkshake"].milkshake_id,
                     "ingredient": str(formCustomizationCleaned["ingredient_name"]),
                     "serving": formCustomizationCleaned["ingredient_quantity"]
                 }
