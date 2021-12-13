@@ -90,13 +90,25 @@ def create_customization(request):
 
         if formCustomization.is_valid():
 
-# Needs fixing
             formCustomizationCleaned = formCustomization.cleaned_data
             connection.cursor().execute(
-                "INSERT INTO milkshake VALUES (DEFAULT, %(name)s, %(size)s)",
+                '''INSERT INTO customization
+                    VALUES
+                    (
+                        3, -- Milkshake ID
+                        'OREO', -- Ingredient name
+                        2, -- Quantity delta
+                        (
+                            SELECT price_per_serving
+                            FROM ingredient
+                            WHERE ingredient_name = 'OREO'
+                        ) * 2
+                    );
+                ''',
                 {
-                    "name": str(formCustomizationCleaned["recipe_name"]),
-                    "size": formCustomizationCleaned["recipe_size"].recipe_size
+                    "milkshake": formCustomizationCleaned["milkshake_id"].milkshake_id,
+                    "ingredient": str(formCustomizationCleaned["ingredient_name"]),
+                    "serving": formCustomizationCleaned["ingredient_quantity"]
                 }
             )
 

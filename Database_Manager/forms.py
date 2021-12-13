@@ -41,12 +41,11 @@ class SaleForm(ModelForm):
 class CustomizationForm(ModelForm):
     class Meta:
         model = Customization
-        fields = ('milkshake', 'ingredient_name', 'ingredient_quantity', 'price_delta')
+        fields = ('milkshake', 'ingredient_name', 'ingredient_quantity')
         labels = {
             'milkshake': 'Milkshake',
             'ingredient_name': 'Ingredients',
-            'ingredient_quantity': 'Quantity',
-            'price_delta': 'Price',
+            'ingredient_quantity': 'Quantity'
         }
 
 
