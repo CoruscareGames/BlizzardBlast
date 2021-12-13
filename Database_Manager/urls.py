@@ -14,4 +14,6 @@ urlpatterns = [
     
     path('sales_list/', views.sales_list, name='sales_list'),
     path('sales_list/<int:txn>', views.sale_details, name='sale_details'),
+    path('sales_list/new_sale', views.create_sale, name='sale_create'),
+
 ]

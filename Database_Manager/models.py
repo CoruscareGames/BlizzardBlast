@@ -24,6 +24,9 @@ class Employee(models.Model):
         managed = False
         db_table = 'employee'
 
+    def __str__(self):
+        return self.name
+
 
 class Ingredient(models.Model):
     ingredient_name = models.CharField(primary_key=True, max_length=50)
@@ -34,6 +37,9 @@ class Ingredient(models.Model):
     class Meta:
         managed = False
         db_table = 'ingredient'
+
+    def __str__(self):
+        return self.ingredient_name
 
 
 class Manager(models.Model):
@@ -54,6 +60,9 @@ class Milkshake(models.Model):
     class Meta:
         managed = False
         db_table = 'milkshake'
+
+    # def __str__(self):
+    #     return self.recipe_name
 
 
 class Orders(models.Model):
@@ -145,3 +154,6 @@ class Week(models.Model):
     class Meta:
         managed = False
         db_table = 'week'
+
+    # def __str__(self):
+    #     return self.week_date

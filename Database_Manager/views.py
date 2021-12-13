@@ -47,6 +47,30 @@ def delete_ingredient(request, ingredient_name):
     return redirect('inventory')
 
 
+def create_sale(request):
+    formSale = SaleForm()
+    formMilkshake = MilkshakeForm()
+    formCustomization = CustomizationForm()
+    context = {
+        'formSale': formSale,
+        'formMilkshake': formMilkshake,
+        'formCustomization': formCustomization,
+    }
+
+    if request.method == 'POST':
+        formSale = SaleForm(request.POST)
+        formMilkshake = MilkshakeForm(request.POST)
+        formCustomization = CustomizationForm(request.POST)
+        
+        if formSale.is_valid() and formMilkshake.is_valid() and formCustomization.is_valid():
+            formSale.save()
+            formMilkshake.save()
+            formCustomization.save()
+            return redirect('sales_list')
+            
+    return render(request, 'Database_Manager/new_sale.html', context)
+
+
 # Select views
 def report(request):
     sale = Sale.objects.all()
