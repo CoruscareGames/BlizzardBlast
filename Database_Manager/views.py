@@ -75,7 +75,7 @@ def create_milkshake(request):
 
             return redirect('sales_list')
 
-    return render(request, 'Database_Manager/new_sale.html', context)
+    return render(request, 'Database_Manager/new_milkshake.html', context)
 
 
 def create_customization(request):
@@ -114,7 +114,7 @@ def create_customization(request):
 
             return redirect('sales_list')
 
-    return render(request, 'Database_Manager/new_sale.html', context)
+    return render(request, 'Database_Manager/new_customization.html', context)
 
 # Select views
 def report(request):
@@ -176,7 +176,7 @@ def sale_details(request,txn):
         'customization': Customization.objects.raw('SELECT * FROM customization,orders,milkshake WHERE orders.milkshake_id=milkshake.milkshake_id AND customization.milkshake_id=milkshake.milkshake_id'),
         #'total': Orders.objects.raw('SELECT SUM(price) AS total FROM orders,sale WHERE orders.txn=sale.txn'),
         'milkshake': Milkshake.objects.all(),
-        'recipe_price': RecipePrice.objects.raw('SELECT recipe_price.price,recipe_price.recipe_name,recipe_price.recipe_size FROM orders, milkshake,recipe_price WHERE orders.milkshake_id=milkshake.milkshake_id AND recipe_price.recipe_name=milkshake.recipe_name AND recipe_price.recipe_size = milkshake.recipe_size')
+        'recipe_price': RecipePrice.objects.raw('SELECT DISTINCT recipe_price.price,recipe_price.recipe_name,recipe_price.recipe_size FROM orders, milkshake,recipe_price WHERE orders.milkshake_id=milkshake.milkshake_id AND recipe_price.recipe_name=milkshake.recipe_name AND recipe_price.recipe_size = milkshake.recipe_size')
     }
     return render (request, 'Database_Manager/sale.html', context)
 

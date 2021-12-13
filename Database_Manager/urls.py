@@ -17,6 +17,6 @@ urlpatterns = [
 
     # path('sales_list/new_sale', views.create_sale, name='sale_create'),
     path('sales_list/new_milkshake', views.create_milkshake, name='sale_create'),
-    # path('sales_list/new_customization', views.create_customization, name='sale_create'),
+    path('sales_list/new_customization', views.create_customization, name='sale_create'),
 
 ]
