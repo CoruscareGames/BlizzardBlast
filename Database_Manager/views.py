@@ -78,6 +78,32 @@ def create_milkshake(request):
     return render(request, 'Database_Manager/new_sale.html', context)
 
 
+def create_customization(request):
+    formCustomization = CustomizationForm()
+    context = {
+        'formCustomization': formCustomization,
+    }
+
+    if request.method == 'POST':
+
+        formCustomization = CustomizationForm(request.POST)
+
+        if formCustomization.is_valid():
+
+# Needs fixing
+            formCustomizationCleaned = formCustomization.cleaned_data
+            connection.cursor().execute(
+                "INSERT INTO milkshake VALUES (DEFAULT, %(name)s, %(size)s)",
+                {
+                    "name": str(formCustomizationCleaned["recipe_name"]),
+                    "size": formCustomizationCleaned["recipe_size"].recipe_size
+                }
+            )
+
+            return redirect('sales_list')
+
+    return render(request, 'Database_Manager/new_sale.html', context)
+
 # Select views
 def report(request):
     sale = Sale.objects.all()
