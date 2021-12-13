@@ -29,9 +29,8 @@ class IngredientFormUpdate(ModelForm):
 class SaleForm(ModelForm):
     class Meta:
         model = Sale
-        fields = ('txn', 'customer_name', 'day_date', 'week_date')
+        fields = ('customer_name', 'day_date', 'week_date')
         labels = {
-            'txn': 'Transaction Number',
             'customer_name': 'Customer Name',
             'day_date': 'Date',
             'week_date': 'Week',
@@ -52,9 +51,8 @@ class CustomizationForm(ModelForm):
 class MilkshakeForm(ModelForm):
     class Meta:
         model = Milkshake
-        fields = '__all__'
+        fields = ('recipe_name', 'recipe_size')
         labels = {
-            'txn': 'TXN',
             'recipe_name': 'Recipe',
             'recipe_size': 'Size',
         }
