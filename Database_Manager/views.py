@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 from .forms import *
+from .filters import *
 
 # Form views
 def create_ingredient(request):
@@ -48,18 +49,15 @@ def delete_ingredient(request, ingredient_name):
 
 # Select views
 def report(request):
+    sale = Sale.objects.all()
+    sale_filter = SaleFilter(request.GET, queryset=sale)
+    sale = sale_filter.qs
     context = {
-        'milkshake': Milkshake.objects.raw('''SELECT	recipe_name,
-                                                    COUNT(recipe_name)
-                                            FROM	milkshake
-                                            INNER JOIN orders on milkshake.milkshake_id = orders.milkshake_id
-                                            INNER JOIN sale on orders.txn = sale.txn
-                                            WHERE	week_date BETWEEN '2021-12-06' AND '2021-12-12'
-                                            GROUP BY recipe_name
-                                            ORDER BY COUNT(recipe_name) DESC        
-                                            ''')
+        'sale': sale,
+        'sale_filter': sale_filter,
     }
-    return render(request, 'Database_Manager/report.html')
+
+    return render(request, 'Database_Manager/report.html', context)
 
 
 # List views
@@ -100,3 +98,18 @@ def schedule(request):
         'week': Week.objects.all(),
     }
     return render(request, 'Database_Manager/schedule.html', context)
+
+
+def sale_details(request,txn):
+    context = {
+        'sale' : Sale.objects.get(pk=txn),
+        'orders': Orders.objects.raw('SELECT * FROM orders, sale WHERE sale.txn=orders.txn'),
+        'customization': Customization.objects.raw('SELECT * FROM customization,orders,milkshake WHERE orders.milkshake_id=milkshake.milkshake_id AND customization.milkshake_id=milkshake.milkshake_id'),
+        #'total': Orders.objects.raw('SELECT SUM(price) AS total FROM orders,sale WHERE orders.txn=sale.txn'),
+        'milkshake': Milkshake.objects.all(),
+        'recipe_price': RecipePrice.objects.raw('SELECT recipe_price.price,recipe_price.recipe_name,recipe_price.recipe_size FROM orders, milkshake,recipe_price WHERE orders.milkshake_id=milkshake.milkshake_id AND recipe_price.recipe_name=milkshake.recipe_name AND recipe_price.recipe_size = milkshake.recipe_size')
+    }
+    return render (request, 'Database_Manager/sale.html', context)
+
+    #model = Sale
+    #template_name = 'Database_Manager/sale.html'
