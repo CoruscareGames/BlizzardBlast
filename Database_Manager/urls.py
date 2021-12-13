@@ -18,7 +18,8 @@ urlpatterns = [
     # path('sales_list/new_sale', views.create_sale, name='sale_create'),
     path('sales_list/new_milkshake', views.create_milkshake, name='sale_milkshake'),
     path('sales_list/new_customization', views.create_customization, name='sale_customization'),
+    path('sales_list/new_sale', views.create_sale, name='sale_sale'),
     path('sales_list/new_order', views.create_orders, name='sale_orders'),
-    # path('sales_list/new_sale', views.create_customization, name='sale_sale'),
+
 
 ]

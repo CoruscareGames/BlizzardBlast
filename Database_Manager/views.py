@@ -118,6 +118,44 @@ def create_customization(request):
     return render(request, 'Database_Manager/new_customization.html', context)
 
 
+def create_sale(request):
+    formSale = SaleForm()
+    context = {
+        'formSale': formSale,
+    }
+
+    if request.method == 'POST':
+
+        formSale = SaleForm(request.POST)
+
+        if formSale.is_valid():
+
+            formSaleCleaned = formSale.cleaned_data
+            connection.cursor().execute(
+                '''INSERT INTO sale
+                    VALUES
+                    (
+                        DEFAULT,
+                        %(customer)s,
+                        %(daydate)s,
+                        (
+                        SELECT week_date
+                        FROM week
+                        WHERE %(daydate)s BETWEEN week_date AND (week_date + INTERVAL '6 days'
+                        ))
+                    );
+                ''',
+                {
+                    "customer": str(formSaleCleaned["customer_name"]),
+                    "daydate": formSaleCleaned["day_date"]
+                }
+            )
+
+            return redirect('sales_list')
+
+    return render(request, 'Database_Manager/new_sale.html', context)
+
+
 def create_orders(request):
     formOrders = OrdersForm()
     context = {
@@ -126,7 +164,7 @@ def create_orders(request):
 
     if request.method == 'POST':
 
-        formOrders = CustomizationForm(request.POST)
+        formOrders = OrdersForm(request.POST)
 
         if formOrders.is_valid():
 
@@ -135,8 +173,8 @@ def create_orders(request):
                 '''INSERT INTO orders
                     VALUES
                     (
-                        %(txn)s
-                        %(milkshake)s
+                        %(txn)s,
+                        %(milkshake)s,
                         (
                             SELECT SUM(price) FROM
                             (
@@ -157,11 +195,12 @@ def create_orders(request):
                                 FROM customization
                                 WHERE milkshake_id = %(milkshake)s
                             )
+                            AS foo
                         )
                     );
                 ''',
                 {
-                    "txn": formOrdersCleaned["txn"],
+                    "txn": formOrdersCleaned["txn"].txn,
                     "milkshake": formOrdersCleaned["milkshake"].milkshake_id
                 }
             )
@@ -230,11 +269,8 @@ def sale_details(request,txn):
         'sale' : Sale.objects.get(pk=txn),
         'orders': Orders.objects.raw('SELECT * FROM orders, sale WHERE sale.txn=orders.txn'),
         'customization': Customization.objects.raw('SELECT * FROM customization,orders,milkshake WHERE orders.milkshake_id=milkshake.milkshake_id AND customization.milkshake_id=milkshake.milkshake_id'),
-        #'total': Orders.objects.raw('SELECT SUM(price) AS total FROM orders,sale WHERE orders.txn=sale.txn'),
+        'total': Orders.objects.raw('SELECT SUM(price) AS total, orders.txn AS txn FROM orders,sale WHERE orders.txn = sale.txn GROUP BY orders.txn'),
         'milkshake': Milkshake.objects.all(),
         'recipe_price': RecipePrice.objects.raw('SELECT DISTINCT recipe_price.price,recipe_price.recipe_name,recipe_price.recipe_size FROM orders, milkshake,recipe_price WHERE orders.milkshake_id=milkshake.milkshake_id AND recipe_price.recipe_name=milkshake.recipe_name AND recipe_price.recipe_size = milkshake.recipe_size')
     }
     return render (request, 'Database_Manager/sale.html', context)
-
-    #model = Sale
-    #template_name = 'Database_Manager/sale.html'
