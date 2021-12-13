@@ -74,6 +74,9 @@ class Recipe(models.Model):
         managed = False
         db_table = 'recipe'
 
+    def __str__(self):
+        return self.recipe_name
+
 
 class RecipePrice(models.Model):
     recipe_name = models.OneToOneField(Recipe, models.DO_NOTHING, db_column='recipe_name', primary_key=True)
@@ -92,6 +95,14 @@ class RecipeSize(models.Model):
     class Meta:
         managed = False
         db_table = 'recipe_size'
+
+    def __str__(self):
+        if self.recipe_size == 1:
+            return 'SMALL'
+        if self.recipe_size == 2:
+            return 'MEDIUM'
+        if self.recipe_size == 3:
+            return 'LARGE'
 
 
 class Sale(models.Model):
