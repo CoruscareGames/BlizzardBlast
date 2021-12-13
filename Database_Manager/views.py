@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-
+from django.contrib import messages
 from django.db import connection
 
 from .models import *
@@ -91,6 +91,7 @@ def create_customization(request):
 
         if formCustomization.is_valid():
 
+            formCustomizationCleaned = formCustomization.cleaned_data
             milkshake = formCustomizationCleaned["milkshake"]
 
             # Get all Serving rows that match this recipe name, size, and ingredient
@@ -106,13 +107,15 @@ def create_customization(request):
 
             # Maybe there's a better way to tell the user they made a mistake
             if not recipe_ingredients:
+                messages.error(request, 'That was an invalid move')
                 return render(request, 'Database_Manager/new_customization.html', context)
 
             if recipe_ingredients[0]["servings"] + formCustomizationCleaned["ingredient_quantity"] < 0:
+                messages.error(request, 'That was an invalid move')
                 return render(request, 'Database_Manager/new_customization.html', context)
             # But doing nothing is better than whatever I can think of
 
-            formCustomizationCleaned = formCustomization.cleaned_data
+            
             connection.cursor().execute(
                 '''INSERT INTO customization
                     VALUES
