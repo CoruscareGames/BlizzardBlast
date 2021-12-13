@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'Database_Manager.apps.DatabaseManagerConfig',
+    'django_filters',
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

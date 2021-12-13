@@ -18,7 +18,7 @@
         <tbody>
           {% for sale in sale %}
             <tr>
-              <th scope="row">{{ sale.txn }}</th>
+              <th scope="row"><a href="{{ sale.txn }}">{{ sale.txn }}</a></th>
               <td>{{ sale.customer_name }}</td>
               <td>{{ sale.day_date }}</td>
               <td>{{ sale.week_date.week_date }}</td>

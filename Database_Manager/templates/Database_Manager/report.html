@@ -6,11 +6,33 @@
 
 {% block content %}
     <h1>Blizzard Blast's Sale Report</h1>
-        <table class="table">
-            {% for milkshake in milkshake %}
-                {{ milkshake.recipe_name }}
-                {{ milkshake.ingredient_name }}
+    <br/>
+
+    <h2>Filter Data</h2>
+    <form method="GET">
+        {{ sale_filter.form }}
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+
+    <br/>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">TXN</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Day</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for sale in sale %}
+                <tr>
+                    <td>{{ sale.txn }}</td>
+                    <td>{{ sale.customer_name }}</td>
+                    <td>{{ sale.day_date }}</td>
+                </tr>
             {% endfor %}
-        </table>    
+        </tbody>
+    </table>    
 
 {% endblock content %}
