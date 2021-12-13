@@ -13,17 +13,9 @@
 
     <form method=POST>
         {% csrf_token %}
-        <h2>Sale Field</h2>
-        {{ formSale.as_p }}
-        <br/>
-
         <h2>Milkshake Field</h2>
         {{ formMilkshake.as_p }}
-        <br/>
 
-        <h2>Customization Field</h2>
-        {{ formCustomization.as_p }}
-        <br/>
         <br/>
         <a href="{% url 'sales_list' %}" class="btn btn-secondary">Go Back</a>
         <input type="submit" class="btn btn-success">
