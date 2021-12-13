@@ -7,7 +7,7 @@ from .models import *
 from .forms import *
 from .filters import *
 
-# Form views
+# Ingredient forms
 def create_ingredient(request):
     form = IngredientFormCreate()
     update = False
@@ -50,6 +50,7 @@ def delete_ingredient(request, ingredient_name):
     return redirect('inventory')
 
 
+# Sale forms
 def create_milkshake(request):
     formMilkshake = MilkshakeForm()
     context = {
@@ -96,7 +97,7 @@ def create_customization(request):
                     VALUES
                     (
                         %(milkshake)s,
-                        %(ingredient)s
+                        %(ingredient)s,
                         %(serving)s,
                         (
                             SELECT price_per_serving
@@ -115,6 +116,7 @@ def create_customization(request):
             return redirect('sales_list')
 
     return render(request, 'Database_Manager/new_customization.html', context)
+
 
 # Select views
 def report(request):
@@ -135,6 +137,7 @@ def sales_list(request):
         'sale': Sale.objects.all().order_by('-txn')
     }
     return render(request, 'Database_Manager/sales_list.html', context)
+
 
 def inventory(request):
     context = {

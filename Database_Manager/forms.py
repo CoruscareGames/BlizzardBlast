@@ -54,6 +54,17 @@ class MilkshakeForm(ModelForm):
         model = Milkshake
         fields = '__all__'
         labels = {
+            'txn': 'TXN',
             'recipe_name': 'Recipe',
             'recipe_size': 'Size',
+        }
+
+
+class OrderForm(ModelForm):
+    class Meta:
+        model = Orders
+        fields = ('txn', 'milkshake',)
+        labels = {
+            'txn': 'TXN',
+            'milkshake': 'Milkshake',
         }

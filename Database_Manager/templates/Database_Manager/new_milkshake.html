@@ -1,7 +1,7 @@
 {% extends "Database_Manager/base.html" %}
 
 {% block title %}
-        New Sale
+    New Milkshake
 {% endblock title %}
 
 {% block content %}
@@ -13,7 +13,6 @@
 
     <form method=POST>
         {% csrf_token %}
-        <h2>Milkshake Field</h2>
         {{ formMilkshake.as_p }}
 
         <br/>
