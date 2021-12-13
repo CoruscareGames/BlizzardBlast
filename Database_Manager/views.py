@@ -68,8 +68,8 @@ def create_milkshake(request):
             connection.cursor().execute(
                 "INSERT INTO milkshake VALUES (DEFAULT, %(name)s, %(size)s)",
                 {
-                    "name": formMilkshakeCleaned["recipe_name"],
-                    "size": formMilkshakeCleaned["recipe_size"]
+                    "name": str(formMilkshakeCleaned["recipe_name"]),
+                    "size": str(formMilkshakeCleaned["recipe_size"])
                 }
             )
 
