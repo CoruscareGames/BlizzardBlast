@@ -9,7 +9,7 @@ from .filters import *
 
 # Form views
 def create_ingredient(request):
-    form = IngredientForm()
+    form = IngredientFormCreate()
     update = False
     context = {
         'form': form,
@@ -17,7 +17,7 @@ def create_ingredient(request):
     }
 
     if request.method == 'POST':
-        form = IngredientForm(request.POST)
+        form = IngredientFormCreate(request.POST)
 
         if form.is_valid():
             form.save()
@@ -28,7 +28,7 @@ def create_ingredient(request):
 
 def manage_ingredient(request, ingredient_name):
     ingredient = Ingredient.objects.get(pk=ingredient_name)
-    form = IngredientForm(request.POST or None, instance=ingredient)
+    form = IngredientFormUpdate(request.POST or None, instance=ingredient)
     update = True
     context = {
         'ingredient': ingredient,

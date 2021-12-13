@@ -4,7 +4,7 @@ from django.forms import ModelForm
 from django.forms.models import modelform_factory
 from .models import *
 
-class IngredientForm(ModelForm):
+class IngredientFormCreate(ModelForm):
     class Meta:
         model = Ingredient
         fields = ('ingredient_name', 'category', 'stock', 'price_per_serving',)
@@ -15,6 +15,16 @@ class IngredientForm(ModelForm):
             'price_per_serving': 'Price Per Serving',
         }
 
+
+class IngredientFormUpdate(ModelForm):
+    class Meta:
+        model = Ingredient
+        fields = ('category', 'stock', 'price_per_serving',)
+        labels = {
+            'category': 'Category',
+            'stock': 'Quantity',
+            'price_per_serving': 'Price Per Serving',
+        }
 
 class SaleForm(ModelForm):
     class Meta:
