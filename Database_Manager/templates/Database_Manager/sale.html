@@ -58,11 +58,11 @@
         <td></td>
         <td><b>Total</b></td>
         <td><b>
-          {% for orders in orders %}
-            {% if orders.txn == sale %}
-              {{ orders.price }}
+          {% for total in total %}
+            {% if total.txn == sale %}
+              {{ total.total }}
             {% endif %}
-          {% endfor %}
+          {% endfor %}  
         </b></td>
       </tr>      
     </table>
