@@ -69,7 +69,7 @@ def create_milkshake(request):
                 "INSERT INTO milkshake VALUES (DEFAULT, %(name)s, %(size)s)",
                 {
                     "name": str(formMilkshakeCleaned["recipe_name"]),
-                    "size": str(formMilkshakeCleaned["recipe_size"])
+                    "size": formMilkshakeCleaned["recipe_size"].recipe_size
                 }
             )
 
