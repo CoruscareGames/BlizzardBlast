@@ -6,9 +6,9 @@
 
 {% block content %}
   <h1>Blizzard Blast's Recipes</h1>
-
+  
   {% for recipe in recipe %}
-    <table class="table">
+    <table class="table"> 
       <thead>
         <th scope="col">{{ recipe.recipe_name }}</td>
       </thead>
@@ -21,20 +21,25 @@
       </thead>
 
       <tbody>
-        <tr><td>{{ servingsA }}</td></tr>
-        {% for servingsA in servingsA %}
-          {% if servings.recipe_name == recipe %}
+        {% for servings_ingredients in servings_ingredients %}
+          {% if servings_ingredients.recipe_name == recipe %}
+            <tr>
+              <td>{{ servings_ingredients.ingredient_name.ingredient_name }}</td>
 
-                <tr>
-                  <td>{{ servingsA }}</td>
-                  <td>{{ servings.servings }}</td>
-                </tr>
-
+              {% for servings_size in servings_size %}
+                {% if servings_size.ingredient_name == servings_ingredients.ingredient_name %}
+                  {% if servings_size.recipe_name == servings_ingredients.recipe_name %}
+                    <td>{{ servings_size.servings }}</td>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+              
+            </tr>
           {% endif %}
         {% endfor %}
       </tbody>
 
-    </table>
+    </table> 
   {% endfor %}
 
 {% endblock content %}

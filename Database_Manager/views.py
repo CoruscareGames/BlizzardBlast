@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
+
 from django.db import connection
 
 from .models import *
@@ -189,7 +190,7 @@ def create_orders(request):
                                     FROM milkshake
                                     WHERE milkshake_id = %(milkshake)s
                                 )
-                                UNION ALL
+                                UNION ALL	
                                 SELECT price_delta
                                 FROM customization
                                 WHERE milkshake_id = %(milkshake)s
@@ -239,13 +240,6 @@ def inventory(request):
                                                 ORDER BY stock, ingredient_name''')
     }
     return render(request, 'Database_Manager/inventory.html', context)
-
-
-def sales_list(request):
-    context = {
-        'sale': Sale.objects.all().order_by('-txn')
-    }
-    return render(request, 'Database_Manager/sales_list.html', context)
 
 
 def recipes(request):

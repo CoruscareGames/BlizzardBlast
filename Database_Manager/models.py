@@ -113,6 +113,7 @@ class RecipeSize(models.Model):
         if self.recipe_size == 3:
             return 'LARGE'
 
+
 class Sale(models.Model):
     txn = models.IntegerField(primary_key=True)
     customer_name = models.CharField(max_length=255)
