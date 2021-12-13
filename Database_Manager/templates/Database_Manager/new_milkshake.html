@@ -1,24 +1,24 @@
 {% extends "Database_Manager/base.html" %}
 
 {% block title %}
-    New Sale
+    New Milkshake
 {% endblock title %}
 
 {% block content %}
     <h1>Blizzard Blast's Sale List</h1>
     <br/>
-        <h2>New Sale</h2>
+        <h2>New Milkshake</h2>
     <br/>
-
+    
 
     <form method=POST>
         {% csrf_token %}
-        {{ formSale.as_p }}
+        {{ formMilkshake.as_p }}
 
         <br/>
         <a href="{% url 'sales_list' %}" class="btn btn-secondary">Go Back</a>
         <input type="submit" class="btn btn-success">
     </form>
 
-
+    
 {% endblock content %}
