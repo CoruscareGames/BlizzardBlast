@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 
 from django.db import connection
-# i want to fricking scream
 
 from .models import *
 from .forms import *
