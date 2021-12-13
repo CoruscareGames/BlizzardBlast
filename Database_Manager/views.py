@@ -66,11 +66,11 @@ def create_milkshake(request):
 
             formMilkshakeCleaned = formMilkshake.cleaned_data
             connection.cursor().execute(
-                "INSERT INTO milkshake VALUES (DEFAULT, %s, %s)",
-                [
-                    formMilkshakeCleaned["recipe_name"],
-                    formMilkshakeCleaned["recipe_size"]
-                ]
+                "INSERT INTO milkshake VALUES (DEFAULT, %(name)s, %(size)s)",
+                {
+                    "name": formMilkshakeCleaned["recipe_name"],
+                    "size": formMilkshakeCleaned["recipe_size"]
+                }
             )
 
             return redirect('sales_list')
