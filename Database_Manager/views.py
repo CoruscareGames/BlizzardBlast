@@ -95,14 +95,14 @@ def create_customization(request):
                 '''INSERT INTO customization
                     VALUES
                     (
-                        3, -- Milkshake ID
-                        'OREO', -- Ingredient name
-                        2, -- Quantity delta
+                        %(milkshake)s,
+                        %(ingredient)s
+                        %(serving)s,
                         (
                             SELECT price_per_serving
                             FROM ingredient
-                            WHERE ingredient_name = 'OREO'
-                        ) * 2
+                            WHERE ingredient_name = %(ingredient)s
+                        ) * %(serving)s
                     );
                 ''',
                 {
