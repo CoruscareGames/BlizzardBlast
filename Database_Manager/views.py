@@ -105,7 +105,6 @@ def create_customization(request):
             # Or an empty one.
             recipe_ingredients = [{"name": i.recipe_name, "servings": i.servings} for i in recipe_ingredients]
 
-            # Maybe there's a better way to tell the user they made a mistake
             if not recipe_ingredients and formCustomizationCleaned["ingredient_quantity"] < 0:
                 messages.error(request, 'That was an invalid move')
                 return render(request, 'Database_Manager/new_customization.html', context)
@@ -113,7 +112,6 @@ def create_customization(request):
             if recipe_ingredients and recipe_ingredients[0]["servings"] + formCustomizationCleaned["ingredient_quantity"] < 0:
                 messages.error(request, 'That was an invalid move')
                 return render(request, 'Database_Manager/new_customization.html', context)
-            # But doing nothing is better than whatever I can think of
 
 
             connection.cursor().execute(
