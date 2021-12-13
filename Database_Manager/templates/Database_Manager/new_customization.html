@@ -7,14 +7,14 @@
 {% block content %}
     <h1>Blizzard Blast's Sale List</h1>
     <br/>
-        <h2>New Sale</h2>
+        <h2>New Customization</h2>
     <br/>
     
 
     <form method=POST>
         {% csrf_token %}
-        <h2>Milkshake Field</h2>
-        {{ formMilkshake.as_p }}
+        <h2>Customization Field</h2>
+        {{ formCustomization.as_p }}
 
         <br/>
         <a href="{% url 'sales_list' %}" class="btn btn-secondary">Go Back</a>
