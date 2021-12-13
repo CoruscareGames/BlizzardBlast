@@ -1,18 +1,27 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic.detail import DetailView 
+from django.views.generic.detail import DetailView
 from .models import *
 from .forms import *
+from .filters import *
 
 # Select views
-def new_sale(request):
-    return render(request, 'Database_Manager/new_sale.html')
+def report(request):
+    sale = Sale.objects.all()
+    sale_filter = SaleFilter(request.GET, queryset=sale)
+    sale = sale_filter.qs
+    context = {
+        'sale': sale,
+        'sale_filter': sale_filter,
+    }
+
+    return render(request, 'Database_Manager/report.html', context)
 
 
 # List views
 def inventory(request):
     context = {
-        'ingredient': Ingredient.objects.raw(''' SELECT	ingredient_name, 
+        'ingredient': Ingredient.objects.raw(''' SELECT	ingredient_name,
                                                         category,
                                                         stock
                                                 FROM	ingredient
@@ -58,4 +67,3 @@ def sale_details(request,txn):
         'recipe_price': RecipePrice.objects.raw('SELECT recipe_price.price,recipe_price.recipe_name,recipe_price.recipe_size FROM orders, milkshake,recipe_price WHERE orders.milkshake_id=milkshake.milkshake_id AND recipe_price.recipe_name=milkshake.recipe_name AND recipe_price.recipe_size = milkshake.recipe_size')
     }
     return render (request, 'Database_Manager/sale.html', context)
-

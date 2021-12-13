@@ -6,9 +6,9 @@
 
 {% block content %}
   <h1>Blizzard Blast's Recipes</h1>
-  
+
   {% for recipe in recipe %}
-    <table class="table"> 
+    <table class="table">
       <thead>
         <th scope="col">{{ recipe.recipe_name }}</td>
       </thead>
@@ -16,7 +16,7 @@
       <thead>
           <th scope="col">Ingredient</th>
           {% for recipe_size in recipe_size %}
-          <th scope="col">{{ recipe_size.recipe_size }}</th>
+            <th scope="col">{{ recipe_size }}</th>
           {% endfor %}
       </thead>
 
@@ -34,7 +34,7 @@
         {% endfor %}
       </tbody>
 
-    </table> 
+    </table>
   {% endfor %}
 
 {% endblock content %}
