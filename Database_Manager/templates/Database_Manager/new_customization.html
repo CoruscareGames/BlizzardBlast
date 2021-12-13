@@ -10,6 +10,11 @@
         <h2>New Customization</h2>
     <br/>
     
+    {% if messages %}
+        {% for messages in messages %}
+            <h2>{{ messages }}</h2>
+        {% endfor %}
+    {% endif %}
 
     <form method=POST>
         {% csrf_token %}

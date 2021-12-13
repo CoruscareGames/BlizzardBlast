@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-
+from django.contrib import messages
 from django.db import connection
 
 from .models import *
@@ -92,6 +92,30 @@ def create_customization(request):
         if formCustomization.is_valid():
 
             formCustomizationCleaned = formCustomization.cleaned_data
+            milkshake = formCustomizationCleaned["milkshake"]
+
+            # Get all Serving rows that match this recipe name, size, and ingredient
+            recipe_ingredients = Servings.objects.filter(
+                recipe_name=milkshake.recipe_name,
+                recipe_size=milkshake.recipe_size,
+                ingredient_name=str(formCustomizationCleaned["ingredient_name"])
+            )
+
+            # Should theoretically be a 1 element List
+            # Or an empty one.
+            recipe_ingredients = [{"name": i.recipe_name, "servings": i.servings} for i in recipe_ingredients]
+
+            # Maybe there's a better way to tell the user they made a mistake
+            if not recipe_ingredients and formCustomizationCleaned["ingredient_quantity"] < 0:
+                messages.error(request, 'That was an invalid move')
+                return render(request, 'Database_Manager/new_customization.html', context)
+
+            if recipe_ingredients and recipe_ingredients[0]["servings"] + formCustomizationCleaned["ingredient_quantity"] < 0:
+                messages.error(request, 'That was an invalid move')
+                return render(request, 'Database_Manager/new_customization.html', context)
+            # But doing nothing is better than whatever I can think of
+
+
             connection.cursor().execute(
                 '''INSERT INTO customization
                     VALUES
@@ -107,7 +131,7 @@ def create_customization(request):
                     );
                 ''',
                 {
-                    "milkshake": formCustomizationCleaned["milkshake"].milkshake_id,
+                    "milkshake": milkshake.milkshake_id,
                     "ingredient": str(formCustomizationCleaned["ingredient_name"]),
                     "serving": formCustomizationCleaned["ingredient_quantity"]
                 }
@@ -190,7 +214,7 @@ def create_orders(request):
                                     FROM milkshake
                                     WHERE milkshake_id = %(milkshake)s
                                 )
-                                UNION ALL	
+                                UNION ALL
                                 SELECT price_delta
                                 FROM customization
                                 WHERE milkshake_id = %(milkshake)s
