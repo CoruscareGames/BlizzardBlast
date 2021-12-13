@@ -60,7 +60,7 @@ class MilkshakeForm(ModelForm):
         }
 
 
-class OrderForm(ModelForm):
+class OrdersForm(ModelForm):
     class Meta:
         model = Orders
         fields = ('txn', 'milkshake',)

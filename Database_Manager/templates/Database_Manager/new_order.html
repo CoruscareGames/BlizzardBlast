@@ -13,7 +13,7 @@
 
     <form method=POST>
         {% csrf_token %}
-        {{ formOrder.as_p }}
+        {{ formOrders.as_p }}
 
         <br/>
         <a href="{% url 'sales_list' %}" class="btn btn-secondary">Go Back</a>

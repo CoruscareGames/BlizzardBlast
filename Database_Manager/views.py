@@ -118,6 +118,59 @@ def create_customization(request):
     return render(request, 'Database_Manager/new_customization.html', context)
 
 
+def create_orders(request):
+    formOrders = OrdersForm()
+    context = {
+        'formOrders': formOrders,
+    }
+
+    if request.method == 'POST':
+
+        formOrders = CustomizationForm(request.POST)
+
+        if formOrders.is_valid():
+
+            formOrdersCleaned = formOrders.cleaned_data
+            connection.cursor().execute(
+                '''INSERT INTO orders
+                    VALUES
+                    (
+                        %(txn)s
+                        %(milkshake)s
+                        (
+                            SELECT SUM(price) FROM
+                            (
+                                SELECT price
+                                FROM recipe_price
+                                WHERE recipe_name = (
+                                    SELECT recipe_name
+                                    FROM milkshake
+                                    WHERE milkshake_id = %(milkshake)s
+                                )
+                                AND recipe_size = (
+                                    SELECT recipe_size
+                                    FROM milkshake
+                                    WHERE milkshake_id = %(milkshake)s
+                                )
+                                UNION ALL	
+                                SELECT price_delta
+                                FROM customization
+                                WHERE milkshake_id = %(milkshake)s
+                            )
+                        )
+                    );
+                ''',
+                {
+                    "txn": formOrdersCleaned["txn"],
+                    "milkshake": formOrdersCleaned["milkshake"].milkshake_id
+                }
+            )
+
+            return redirect('sales_list')
+
+    return render(request, 'Database_Manager/new_order.html', context)
+
+
 # Select views
 def report(request):
     sale = Sale.objects.all()
